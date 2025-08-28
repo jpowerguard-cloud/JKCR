@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <!-- THIS IS THE KEY: makes the page scale properly on phones -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>JK Correctron Calculator</title>
+  <style>
+    :root { font-size: 16px; }
+    * { box-sizing: border-box; }
+    html,body { height:100%; margin:0; }
+    body {
+      font-family: system-ui, Arial, sans-serif;
+      background: #f4f6f8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 560px;      /* keeps it nice on tablets/desktop */
+      background: #fff;
+      padding: 18px;
+      border-radius: 12px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    }
+
+    h1 { font-size: 1.25rem; margin: 0 0 12px; text-align:center; }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .full { grid-column: 1 / -1; }
+
+    input[type="number"] {
+      width: 100%;
+      padding: 14px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 1.125rem;   /* bigger text on phone */
+      -moz-appearance: textfield; /* hide number arrows on Firefox */
+    }
+
+    /* remove spinner in Chrome for a cleaner look (optional) */
+    input[type=number]::-webkit-outer-spin-button,
+    input[type=number]::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      border-radius: 8px;
+      border: none;
+      background: #007BFF;
+      color: #fff;
+      font-size: 1.125rem;
+      cursor: pointer;
+    }
+    .result {
+      margin-top: 12px;
+      font-size: 1.05rem;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    @media (max-width: 420px) {
+      :root { font-size: 15px; }
+      .grid { gap: 8px; }
+      input, button { padding: 12px; font-size: 1rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Electricity Per Unit Calculator</h1>
+
+    <div class="grid">
+      <input type="number" id="val1" placeholder="Energy Charge">
+      <input type="number" id="val2" placeholder="Wheeling Charge">
+      <input type="number" id="val3" placeholder="FAC">
+      <input type="number" id="val4" placeholder="Tax on Sale">
+      <input class="full" type="number" id="percent" placeholder="Electricity Duty %">
+    </div>
+
+    <button id="calc">Calculate</button>
+    <div class="result" id="result">Sum: — | %: — | Final: —</div>
+  </div>
+
+  <script>
+    document.getElementById('calc').addEventListener('click', calculate);
+    function calculate(){
+      let v1 = parseFloat(document.getElementById("val1").value) || 0;
+      let v2 = parseFloat(document.getElementById("val2").value) || 0;
+      let v3 = parseFloat(document.getElementById("val3").value) || 0;
+      let v4 = parseFloat(document.getElementById("val4").value) || 0;
+      let percent = parseFloat(document.getElementById("percent").value) || 0;
+
+      let sum = v1 + v2 + v3 + v4;
+      let percentValue = (sum * percent) / 100;
+      let finalResult = sum + percentValue;
+
+      document.getElementById("result").innerText =
+        "Sum = " + sum +
+        " | " + percent + "% of Sum = " + percentValue +
+        " | Final Result = " + finalResult;
+    }
+  </script>
+</body>
+</html>
